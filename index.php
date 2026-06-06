@@ -22,12 +22,8 @@ $image_path = __DIR__ . '/files/' . $image_file;
 // Определяем, показываем мы картинку или главную страницу
 $is_home = empty($clean_name);
 
-// Если файл не найден и это не корень, отдаем ошибку 404
-if (!$is_home && !file_exists($image_path)) {
-	header("HTTP/1.0 404 Not Found");
-	echo "<h1>Изображение не найдено</h1>";
-	exit;
-}
+// Проверяем наличие файла
+$file_exists = !empty($clean_name) && file_exists($image_path);
 
 // URL самой картинки для отображения (если это не главная)
 $image_url = $is_home ? "" : "/screenshots-uploader/files/" . $image_file;
@@ -138,10 +134,19 @@ $image_url = $is_home ? "" : "/screenshots-uploader/files/" . $image_file;
 			</div>
 		</div>
 	<?php else: ?>
-		<!-- Картинка, обернутая в блок для инициализации плагина -->
-		<div id="image-gallery">
-			<img id="screenshot" src="<?php echo $image_url; ?>" alt="Скриншот" style="display: none;">
-		</div>
+		<?php if ($file_exists): ?>
+            <!-- Картинка найдена: инициализируем Viewer.js -->
+            <div id="image-gallery">
+                <img id="screenshot" src="<?php echo $image_url; ?>" alt="Скриншот" style="display: none;">
+            </div>
+        <?php else: ?>
+            <!-- Файл еще не докачался: показываем лоадер -->
+            <div class="loader-container" id="waiting-loader" data-url="<?php echo $image_url; ?>">
+                <div class="spinner"></div>
+                <h2>Файл еще загружается...</h2>
+                <p>Страница обновится автоматически, как только скриншот появится на сервере.</p>
+            </div>
+        <?php endif; ?>
 	<?php endif; ?>
 </div>
 
