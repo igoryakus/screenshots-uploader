@@ -8,21 +8,11 @@
 </head>
 <body class="instruction-page">
 
-<header>
-    <div class="logo-container">
-        <a href="/screenshots-uploader/" class="logo-link">
-            <div class="logo">Screenshot uploader</div>
-        </a>
-        <a href="/screenshots-uploader/" class="nav-link instruction-link">
-            <svg height="18" viewBox="0 0 16 16" width="18" class="nav-icon"><path fill="currentColor" d="M9.78 12.53a.75.75 0 0 1-1.06 0L4.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 1 1 1.06 1.06L6.81 7h5.44a.75.75 0 0 1 0 1.5H6.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"></path></svg>
-            <span>На главную</span>
-        </a>
-        <a href="https://github.com/igoryakus/screenshots-uploader" class="nav-link github-link">
-            <svg height="20" viewBox="0 0 16 16" width="20" class="github-logo"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
-            <span>Github</span>
-        </a>
-    </div>
-</header>
+<?php 
+$is_home = false; // Для docs/index.php это не главная в контексте шапки
+$image_url = ""; // В инструкции нет конкретной картинки для скачивания
+include dirname(__DIR__) . '/header.php'; 
+?>
 
 <div class="main-content scrollable">
     <div class="container">
@@ -104,5 +94,4 @@ sudo chmod -R 755 /var/www/html/screenshots-uploader/files</code></pre>
     </div>
 </div>
 
-</body>
-</html>
+<?php include dirname(__DIR__) . '/footer.php'; ?>
