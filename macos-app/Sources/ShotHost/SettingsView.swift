@@ -86,7 +86,8 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .frame(width: 520)
+        // Form в стиле .grouped прокручивается и не сообщает свою высоту окну, поэтому размер задан явно.
+        .frame(width: 520, height: 640)
     }
 
     private func pathRow(_ title: String, path: Binding<String>, chooseDirectory: Bool) -> some View {
