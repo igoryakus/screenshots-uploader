@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Инструкция по настройке - Screenshot uploader</title>
-    <link rel="stylesheet" href="/screenshots-uploader/assets/style.css" />
+    <title>Инструкция по настройке - ShotHost</title>
+    <link rel="stylesheet" href="/shothost/assets/style.css" />
 </head>
 <body class="instruction-page">
 
@@ -50,16 +50,16 @@ sudo apt install nginx php-fpm git</code></pre>
             <h3>Шаг 4: Клонирование проекта</h3>
             <p>Перейдите в директорию веб-сервера и склонируйте проект:</p>
             <pre><code>cd /var/www/html
-sudo git clone https://github.com/igoryakus/screenshots-uploader.git
-sudo chown -R www-data:www-data /var/www/html/screenshots-uploader
-sudo chmod -R 755 /var/www/html/screenshots-uploader/files</code></pre>
+sudo git clone https://github.com/igoryakus/shothost.git
+sudo chown -R www-data:www-data /var/www/html/shothost
+sudo chmod -R 755 /var/www/html/shothost/files</code></pre>
         </div>
 
         <div class="step">
             <h3>Шаг 5: Настройка Nginx</h3>
             <p>Отредактируйте конфигурацию сайта (обычно <code>/etc/nginx/sites-available/default</code>):</p>
-            <pre><code>location /screenshots-uploader/ {
-    try_files $uri $uri/ /screenshots-uploader/index.php?$args;
+            <pre><code>location /shothost/ {
+    try_files $uri $uri/ /shothost/index.php?$args;
 
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
@@ -71,21 +71,21 @@ sudo chmod -R 755 /var/www/html/screenshots-uploader/files</code></pre>
 
         <div class="step">
             <h3>Шаг 6: Настройка клиента (macOS)</h3>
-            <p>1. Скачайте скрипт загрузчика: <a href="/screenshots-uploader/bash-client/screenshots_uploader.sh" download class="text-link">screenshots_uploader.sh</a> и положите этот файл в надежное место.</p>
+            <p>1. Скачайте скрипт загрузчика: <a href="/shothost/bash-client/shothost.sh" download class="text-link">shothost.sh</a> и положите этот файл в надежное место.</p>
             <p>2. Отредактируйте в нем переменную <code>WATCH_DIR</code> (папка со скриншотами), а также <code>REMOTE_HOST</code>, <code>REMOTE_USER</code> и <code>SSH_KEY</code>.</p>
             <p>3. Установите <code>fswatch</code>: <code>brew install fswatch</code></p>
-            <p>4. Сделайте скрипт исполняемым: <code>chmod +x /path/to/screenshots_uploader.sh</code></p>
+            <p>4. Сделайте скрипт исполняемым: <code>chmod +x /path/to/shothost.sh</code></p>
             
-            <p>5. Для автозапуска скачайте файл <a href="/screenshots-uploader/bash-client/com.user.screenshots-uploader.plist" download class="text-link">com.user.screenshots-uploader.plist</a> и положите его в <code>~/Library/LaunchAgents/</code>.</p>
-            <p>Запустите: <code>launchctl load ~/Library/LaunchAgents/com.user.screenshot-uploader.plist</code></p>
+            <p>5. Для автозапуска скачайте файл <a href="/shothost/bash-client/com.user.shothost.plist" download class="text-link">com.user.shothost.plist</a> и положите его в <code>~/Library/LaunchAgents/</code>.</p>
+            <p>Запустите: <code>launchctl load ~/Library/LaunchAgents/com.user.shothost.plist</code></p>
         </div>
 
         <div class="step">
             <h3>Шаг 7: Настройка клиента (Windows)</h3>
-            <p>1. Скачайте PowerShell-скрипт: <a href="/screenshots-uploader/bash-client/screenshots_uploader.ps1" download class="text-link">screenshots_uploader.ps1</a>.</p>
+            <p>1. Скачайте PowerShell-скрипт: <a href="/shothost/bash-client/shothost.ps1" download class="text-link">shothost.ps1</a>.</p>
             <p>2. Откройте его в текстовом редакторе и настройте переменные в начале файла (пути к папкам, данные сервера).</p>
             <p>3. Для запуска откройте PowerShell и выполните скрипт. Чтобы он работал в фоне, можно создать ярлык в папке «Автозагрузка» (<code>Win+R</code> -> <code>shell:startup</code>) с командой:</p>
-            <pre><code>powershell.exe -WindowStyle Hidden -File "C:\путь\к\screenshots_uploader.ps1"</code></pre>
+            <pre><code>powershell.exe -WindowStyle Hidden -File "C:\путь\к\shothost.ps1"</code></pre>
             <p><em>Примечание: Убедитесь, что у вас разрешен запуск скриптов. Проверить текущую политику можно командой:</em></p>
             <pre><code>Get-ExecutionPolicy -List</code></pre>
             <p><em>Если напротив <code>CurrentUser</code> или <code>LocalMachine</code> не указано <code>RemoteSigned</code> или <code>Unrestricted</code>, разрешите запуск:</em></p>

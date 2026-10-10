@@ -7,12 +7,12 @@ $REMOTE_HOST = "<vps_ip_address>"
 $REMOTE_PORT = "22"
 # Пользователь vps с правами sudo, например, root
 $REMOTE_USER = "<vps_sudo_user>"
-# Путь на сервере к папке screenshots-uploader/files/
-$REMOTE_DIR = "/var/www/html/screenshots-uploader/files/"
+# Путь на сервере к папке shothost/files/
+$REMOTE_DIR = "/var/www/html/shothost/files/"
 # Путь на Вашем компьютере к ключу
 $SSH_KEY = "C:\path\to\your\private_key"
-# Адрес для создания ссылки. Домен или IP с папкой /screenshots-uploader/
-$BASE_URL = "http://<your_domain_or_ip>/screenshots-uploader/"
+# Адрес для создания ссылки. Домен или IP с папкой /shothost/
+$BASE_URL = "http://<your_domain_or_ip>/shothost/"
 
 # Транслитерация
 $translitTable = @{
