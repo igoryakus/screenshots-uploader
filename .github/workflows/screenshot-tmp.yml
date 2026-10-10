@@ -1,0 +1,49 @@
+name: App screenshot (temporary)
+
+on:
+  push:
+    branches: [screenshot-tmp]
+
+jobs:
+  shot:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        working-directory: macos-app
+        run: ./build-app.sh
+      - name: Demo settings
+        run: |
+          mkdir -p /tmp/Screenshots
+          CONFIG='{"watchDir":"'"$HOME"'/Pictures/Screenshots","host":"yakus.ru","port":22,"user":"deploy","remoteDir":"/var/www/yakus/shothost/files/","keyPath":"'"$HOME"'/.ssh/id_ed25519","baseURL":"https://yakus.ru/shothost/"}'
+          mkdir -p "$HOME/Pictures/Screenshots"
+          NOW=$(python3 -c 'import time; print(time.time() - 978307200)')
+          RECENT='[{"name":"Snimok_ekrana_2026-10-10_v_14.02.11_8f3a91c0d2e4b7a65c19.png","url":"https://yakus.ru/shothost/Snimok_ekrana_2026-10-10_v_14.02.11_8f3a91c0d2e4b7a65c19","date":'"$NOW"'},{"name":"Snimok_ekrana_2026-10-10_v_13.47.05_2b7e0c94f1a3d85e6c02.png","url":"https://yakus.ru/shothost/Snimok_ekrana_2026-10-10_v_13.47.05_2b7e0c94f1a3d85e6c02","date":'"$NOW"'}]'
+          defaults write io.github.igoryakus.shothost config -data "$(printf '%s' "$CONFIG" | xxd -p | tr -d '\n')"
+          defaults write io.github.igoryakus.shothost recent -data "$(printf '%s' "$RECENT" | xxd -p | tr -d '\n')"
+      - name: Launch and capture
+        continue-on-error: true
+        run: |
+          mkdir -p shots
+          open macos-app/build/ShotHost.app
+          sleep 6
+          screencapture -x shots/0-desktop.png
+          osascript -e 'tell application "System Events" to tell process "ShotHost" to click menu bar item 1 of menu bar 2' || echo "menu click failed"
+          sleep 2
+          screencapture -x shots/1-menu.png
+          osascript -e 'tell application "System Events" to tell process "ShotHost" to click menu item "Настройки…" of menu 1 of menu bar item 1 of menu bar 2' || echo "settings click failed"
+          sleep 3
+          screencapture -x shots/2-settings.png
+          osascript -e 'tell application "System Events" to tell process "ShotHost" to get name of every window' || true
+      - name: Settings window when config is empty
+        continue-on-error: true
+        run: |
+          pkill ShotHost || true
+          defaults delete io.github.igoryakus.shothost config || true
+          open macos-app/build/ShotHost.app
+          sleep 6
+          screencapture -x shots/3-first-launch.png
+      - uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: shots/
