@@ -71,13 +71,10 @@ sudo chmod -R 755 /var/www/html/shothost/files</code></pre>
 
         <div class="step">
             <h3>Шаг 6: Настройка клиента (macOS)</h3>
-            <p>1. Скачайте скрипт загрузчика: <a href="/shothost/bash-client/shothost.sh" download class="text-link">shothost.sh</a> и положите этот файл в надежное место.</p>
-            <p>2. Отредактируйте в нем переменную <code>WATCH_DIR</code> (папка со скриншотами), а также <code>REMOTE_HOST</code>, <code>REMOTE_USER</code> и <code>SSH_KEY</code>.</p>
-            <p>3. Установите <code>fswatch</code>: <code>brew install fswatch</code></p>
-            <p>4. Сделайте скрипт исполняемым: <code>chmod +x /path/to/shothost.sh</code></p>
-            
-            <p>5. Для автозапуска скачайте файл <a href="/shothost/bash-client/com.user.shothost.plist" download class="text-link">com.user.shothost.plist</a> и положите его в <code>~/Library/LaunchAgents/</code>.</p>
-            <p>Запустите: <code>launchctl load ~/Library/LaunchAgents/com.user.shothost.plist</code></p>
+            <p>1. Скачайте приложение ShotHost: откройте <a href="https://github.com/igoryakus/shothost/actions/workflows/macos-app.yml" class="text-link">последнюю сборку «macOS app»</a> и в блоке Artifacts скачайте <code>ShotHost</code>. Можно собрать его и самостоятельно: <code>./macos-app/build-app.sh</code> (нужны Xcode Command Line Tools).</p>
+            <p>2. Распакуйте архив и перенесите <code>ShotHost.app</code> в «Программы». В первый раз откройте его через правый клик → «Открыть»: приложение подписано без сертификата Apple.</p>
+            <p>3. При первом запуске откроется окно настроек. Укажите папку со скриншотами, сервер, SSH-порт, пользователя, папку на сервере, SSH-ключ и адрес ShotHost, затем нажмите «Проверить соединение» и «Сохранить».</p>
+            <p>4. Чтобы приложение работало постоянно, включите в настройках «Запускать при входе в систему».</p>
         </div>
 
         <div class="step">
