@@ -1,8 +1,8 @@
 <?php
 // Получаем текущий URL и вытаскиваем из него имя запрашиваемого файла
 $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-// Отрезаем базовый путь /screenshots-uploader/ если он есть
-$base_path = '/screenshots-uploader/';
+// Отрезаем базовый путь /shothost/ если он есть
+$base_path = '/shothost/';
 $relative_path = $request_uri;
 
 if (strpos($request_uri, $base_path) === 0) {
@@ -26,20 +26,20 @@ $is_home = empty($clean_name);
 $file_exists = !empty($clean_name) && file_exists($image_path);
 
 // URL самой картинки для отображения (если это не главная)
-$image_url = $is_home ? "" : "/screenshots-uploader/files/" . $image_file;
+$image_url = $is_home ? "" : "/shothost/files/" . $image_file;
 ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?php echo $is_home ? "Screenshot uploader - Быстрый обмен скриншотами" : "Просмотр скриншота " . htmlspecialchars($clean_name); ?></title>
+	<title><?php echo $is_home ? "ShotHost - Быстрый обмен скриншотами" : "Просмотр скриншота " . htmlspecialchars($clean_name); ?></title>
 
 	<!-- Подключаем стили плагина Viewer.js -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.min.css" />
 
 	<!-- Основные стили страницы -->
-	<link rel="stylesheet" href="/screenshots-uploader/assets/style.css" />
+	<link rel="stylesheet" href="/shothost/assets/style.css" />
 </head>
 <body class="<?php echo $is_home ? 'home-page scrollable' : ''; ?>">
 
@@ -109,11 +109,11 @@ $image_url = $is_home ? "" : "/screenshots-uploader/files/" . $image_file;
             </div>
 
             <div class="demo-image-container">
-                <img src="/screenshots-uploader/assets/img/demo-file.png" alt="Демонстрация работы" class="demo-image">
+                <img src="/shothost/assets/img/demo-file.png" alt="Демонстрация работы" class="demo-image">
             </div>
 
 			<div class="cta-section">
-				<a href="/screenshots-uploader/docs/" class="btn-download">Как настроить?</a>
+				<a href="/shothost/docs/" class="btn-download">Как настроить?</a>
 			</div>
 		</div>
 	<?php else: ?>

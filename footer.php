@@ -1,6 +1,6 @@
 <div class="footer">
     <div class="container">
-        <p>&copy; <?=date('Y'); ?> Screenshots uploader. Yakus Corporation. Все права незащищены.</p>
+        <p>&copy; <?=date('Y'); ?> ShotHost. Yakus Corporation. Все права незащищены.</p>
     </div>
 </div>
 
@@ -12,6 +12,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.min.js"></script>
 
 <!-- Инициализация плагина -->
-<script src="/screenshots-uploader/assets/script.js"></script>
+<script src="/shothost/assets/script.js"></script>
 </body>
 </html>
