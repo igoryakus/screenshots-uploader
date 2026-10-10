@@ -4,6 +4,9 @@ on:
   push:
     branches: [screenshot-tmp]
 
+permissions:
+  contents: write
+
 jobs:
   shot:
     runs-on: macos-14
@@ -47,3 +50,10 @@ jobs:
         with:
           name: screenshots
           path: shots/
+      - name: Push screenshots to this branch
+        run: |
+          git config user.name igoryakus
+          git config user.email mail@yakus.ru
+          git add shots
+          git commit -m "Screenshots [skip ci]"
+          git push origin HEAD:screenshot-tmp
