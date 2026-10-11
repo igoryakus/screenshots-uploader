@@ -26,111 +26,97 @@ $is_home = empty($clean_name);
 $file_exists = !empty($clean_name) && file_exists($image_path);
 
 // URL самой картинки для отображения (если это не главная)
-$image_url = $is_home ? "" : "/shothost/files/" . $image_file;
+$image_url = $is_home ? "" : "/shothost/files/" . rawurlencode($image_file);
+
+// Параметры для общих head.php, header.php и footer.php
+$page_title = $is_home ? "ShotHost: мгновенная загрузка скриншотов на свой сервер" : "Скриншот " . $clean_name;
+$page_description = $is_home ? "ShotHost загружает скриншоты на ваш VPS в момент их создания и сразу кладёт ссылку в буфер обмена. Без рекламы и публичных хостингов, открытый код." : "";
+$body_class = $is_home ? "home-page" : "viewer-page";
+$current_page = $is_home ? "home" : "";
+$use_viewer = !$is_home;
+$download_url = $file_exists ? $image_url : "";
+
+include __DIR__ . '/head.php';
+include __DIR__ . '/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?php echo $is_home ? "ShotHost - Быстрый обмен скриншотами" : "Просмотр скриншота " . htmlspecialchars($clean_name); ?></title>
 
-	<!-- Подключаем стили плагина Viewer.js -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.min.css" />
-
-	<!-- Основные стили страницы -->
-	<link rel="stylesheet" href="/shothost/assets/style.css" />
-</head>
-<body class="<?php echo $is_home ? 'home-page scrollable' : ''; ?>">
-
-<?php include __DIR__ . '/header.php'; ?>
-<div class="main-content">
-	<?php if ($is_home): ?>
-		<div class="container landing-content">
-			<h1>Максимально быстрая загрузка скриншотов</h1>
-			<p class="lead">Создавайте, загружайте и делитесь скриншотами мгновенно и без навязчивой рекламы.</p>
-
-            <h2 id="about">Возможности</h2>
-            <div class="features">
-                <div class="feature-card">
-                    <div class="feature-header">
-                        <div class="feature-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
-                        </div>
-                        <h3>Мгновенная загрузка</h3>
-                    </div>
-                    <p>Отправляйте скриншоты на сервер в тот же момент, когда файлы записываются на диск.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-header">
-                        <div class="feature-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
-                        </div>
-                        <h3>Автокопирование URL</h3>
-                    </div>
-                    <p>Готовая к отправке ссылка генерируется сразу и вы можете ей пользоваться, пока в фоне файл копируется на сервер.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-header">
-                        <div class="feature-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                        </div>
-                        <h3>Максимальная скорость</h3>
-                    </div>
-                    <p>Мгновенная прямая загрузка на VPS без задержек публичных хостингов.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-header">
-                        <div class="feature-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                        </div>
-                        <h3>Приватность на своем сервере</h3>
-                    </div>
-                    <p>Ваши изображения остаются в безопасности на вашем собственном VPS под вашим полным контролем.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-header">
-                        <div class="feature-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
-                        </div>
-                        <h3>Отсутствие рекламы</h3>
-                    </div>
-                    <p>Полное отсутствие баннеров, всплывающих окон, вотермарок и капч.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-header">
-                        <div class="feature-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4zm0 0c2 2.67 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.33-6 4z"></path></svg>
-                        </div>
-                        <h3>Вечное хранение</h3>
-                    </div>
-                    <p>Ваши файлы размещены навсегда и никогда не удалятся автоматически.</p>
-                </div>
-            </div>
-
-            <div class="demo-image-container">
-                <img src="/shothost/assets/img/demo-file.png" alt="Демонстрация работы" class="demo-image">
-            </div>
-
-			<div class="cta-section">
-				<a href="/shothost/docs/" class="btn-download">Как настроить?</a>
+<?php if ($is_home): ?>
+<main>
+	<section class="product hero" id="about">
+		<div class="wrap product-grid">
+			<div>
+				<svg class="tile tile-lg" aria-hidden="true"><use href="#i-sc"/></svg>
+				<h1 class="product-title">ShotHost</h1>
+				<p class="product-tagline">Максимально быстрая загрузка скриншотов.</p>
+				<p class="product-text">Делаете скриншот, и ссылка на него сразу оказывается в буфере обмена. Файл в это время уходит в фоне на ваш собственный сервер, без публичных хостингов, рекламы и капч.</p>
+				<div class="chips">
+					<span class="chip">macOS</span>
+					<span class="chip">Windows</span>
+					<span class="chip">Свой VPS</span>
+					<span class="chip">Открытый код</span>
+				</div>
+				<div class="hero-actions">
+					<a class="btn btn-primary" href="/shothost/docs/">Как настроить</a>
+					<a class="btn btn-ghost" href="https://github.com/igoryakus/shothost">Код на GitHub →</a>
+				</div>
+			</div>
+			<!-- Как это выглядит: скриншот, загрузка в фоне и ссылка, которая уже в буфере обмена -->
+			<div class="demo" aria-label="Как работает ShotHost">
+				<div class="demo-bar" aria-hidden="true"><i></i><i></i><i></i><span class="mono">ShotHost</span></div>
+				<div class="demo-row">
+					<span class="demo-step mono">01</span>
+					<div class="demo-body">
+						<b>Скриншот сохранён</b>
+						<span class="demo-file mono">SCR-20261011-jvpl.png</span>
+					</div>
+					<span class="demo-ok" aria-hidden="true">✓</span>
+				</div>
+				<div class="demo-row">
+					<span class="demo-step mono">02</span>
+					<div class="demo-body">
+						<b>Ссылка в буфере обмена</b>
+						<span class="demo-link mono">yakus.ru/shothost/SCR-20261011-jvpl_2af3a7d3</span>
+					</div>
+					<span class="demo-ok" aria-hidden="true">✓</span>
+				</div>
+				<div class="demo-row">
+					<span class="demo-step mono">03</span>
+					<div class="demo-body">
+						<b>Загрузка на ваш сервер</b>
+						<span class="demo-progress" aria-hidden="true"><span></span></span>
+					</div>
+					<span class="demo-ok demo-ok-late" aria-hidden="true">✓</span>
+				</div>
 			</div>
 		</div>
-	<?php else: ?>
-		<?php if ($file_exists): ?>
-            <!-- Картинка найдена: инициализируем Viewer.js -->
-            <div id="image-gallery">
-                <img id="screenshot" src="<?php echo $image_url; ?>" alt="Скриншот" style="display: none;">
-            </div>
-        <?php else: ?>
-            <!-- Файл еще не докачался: показываем лоадер -->
-            <div class="loader-container" id="waiting-loader" data-url="<?php echo $image_url; ?>">
-                <div class="spinner"></div>
-                <h2>Файл еще загружается...</h2>
-                <p>Страница обновится автоматически, как только скриншот появится на сервере.</p>
-            </div>
-        <?php endif; ?>
-	<?php endif; ?>
-</div>
+	</section>
+
+	<section class="product" id="features">
+		<div class="wrap">
+			<h2 class="section-title">Возможности</h2>
+			<ul class="features features-grid">
+				<li><b>Мгновенная загрузка</b>Скриншот отправляется на сервер в тот же момент, когда файл записывается на диск.</li>
+				<li><b>Ссылка сразу</b>Готовая ссылка появляется в буфере обмена ещё до окончания копирования, ей можно делиться сразу.</li>
+				<li><b>Максимальная скорость</b>Прямая загрузка на ваш VPS без очередей и задержек публичных хостингов.</li>
+				<li><b>Ваш сервер</b>Изображения лежат на вашем собственном VPS под вашим полным контролем.</li>
+				<li><b>Без рекламы</b>Никаких баннеров, всплывающих окон, водяных знаков и капч.</li>
+				<li><b>Вечное хранение</b>Файлы хранятся, пока вы сами их не удалите, ничего не пропадает автоматически.</li>
+			</ul>
+		</div>
+	</section>
+</main>
+<?php elseif ($file_exists): ?>
+	<!-- Картинка найдена: показываем её в Viewer.js -->
+	<div id="image-gallery">
+		<img id="screenshot" src="<?php echo htmlspecialchars($image_url); ?>" alt="Скриншот" style="display: none;">
+	</div>
+<?php else: ?>
+	<!-- Файл еще не докачался: показываем лоадер -->
+	<div class="loader-container" id="waiting-loader" data-url="<?php echo htmlspecialchars($image_url); ?>">
+		<div class="spinner" aria-hidden="true"></div>
+		<h2>Файл ещё загружается…</h2>
+		<p>Страница обновится сама, как только скриншот появится на сервере.</p>
+	</div>
+<?php endif; ?>
 
 <?php include __DIR__ . '/footer.php'; ?>
