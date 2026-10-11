@@ -605,7 +605,7 @@ pre code {
 		grid-template-columns: 1fr;
 	}
 
-	.nav a:not(.nav-cta) {
+	.nav a:not(.nav-cta):not(.lang) {
 		display: none;
 	}
 
@@ -842,4 +842,16 @@ a.dl:hover .btn {
 #download,
 #setup {
 	scroll-margin-top: var(--topbar);
+}
+
+/* Language switch in the header: EN / RU, as on yakus.ru */
+.lang {
+	font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 13px;
+	letter-spacing: 0.04em;
+}
+
+.lang b {
+	color: var(--text);
+	font-weight: 500;
 }

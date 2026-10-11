@@ -9,6 +9,13 @@ if (strpos($request_uri, $base_path) === 0) {
     $relative_path = substr($request_uri, strlen($base_path));
 }
 
+// Язык: /shothost/ru/ это русская версия, всё остальное английская (см. lang.php)
+require_once __DIR__ . '/lang.php';
+$lang = shothost_lang($relative_path);
+shothost_load_texts($lang);
+$home_url = $lang === 'ru' ? '/shothost/ru/' : '/shothost/';
+$site_url = $lang === 'ru' ? 'https://yakus.ru/ru/' : 'https://yakus.ru/';
+
 $clean_name = trim($relative_path, '/');
 // Если после очистки осталось index.php, то это тоже главная
 if ($clean_name === 'index.php') {
@@ -29,8 +36,8 @@ $file_exists = !empty($clean_name) && file_exists($image_path);
 $image_url = $is_home ? "" : "/shothost/files/" . rawurlencode($image_file);
 
 // Параметры для общих head.php, header.php и footer.php
-$page_title = $is_home ? "ShotHost: мгновенная загрузка скриншотов на свой сервер" : "Скриншот " . $clean_name;
-$page_description = $is_home ? "ShotHost загружает скриншоты на ваш VPS в момент их создания и сразу кладёт ссылку в буфер обмена. Без рекламы и публичных хостингов, открытый код." : "";
+$page_title = $is_home ? t('title') : t('title_screenshot') . $clean_name;
+$page_description = $is_home ? t('description') : "";
 $body_class = $is_home ? "home-page" : "viewer-page";
 $use_viewer = !$is_home;
 $download_url = $file_exists ? $image_url : "";
@@ -46,27 +53,27 @@ include __DIR__ . '/header.php';
 			<div>
 				<svg class="tile tile-lg" aria-hidden="true"><use href="#i-sc"/></svg>
 				<h1 class="product-title">ShotHost</h1>
-				<p class="product-tagline">Максимально быстрая загрузка скриншотов.</p>
-				<p class="product-text">Делаете скриншот, и ссылка на него сразу оказывается в буфере обмена. Файл в это время уходит в фоне на ваш собственный сервер, без публичных хостингов, рекламы и капч.</p>
-				<p class="product-text">На Mac это нативное приложение в строке меню: все настройки в одном окне, пауза, ручная загрузка файла, последние ссылки и уведомление с кнопкой «Открыть». Для Windows есть скрипт PowerShell.</p>
+				<p class="product-tagline"><?= t('tagline') ?></p>
+				<p class="product-text"><?= t('intro') ?></p>
+				<p class="product-text"><?= t('intro_app') ?></p>
 				<div class="chips">
-					<span class="chip">Приложение для macOS</span>
+					<span class="chip"><?= t('chip_app') ?></span>
 					<span class="chip">Windows</span>
-					<span class="chip">Свой VPS</span>
-					<span class="chip">Открытый код</span>
+					<span class="chip"><?= t('chip_vps') ?></span>
+					<span class="chip"><?= t('chip_open_source') ?></span>
 				</div>
 				<div class="hero-actions">
-					<a class="btn btn-primary" href="#download">Скачать</a>
-					<a class="btn btn-ghost" href="#setup">Как настроить</a>
+					<a class="btn btn-primary" href="#download"><?= t('download') ?></a>
+					<a class="btn btn-ghost" href="#setup"><?= t('how_to_set_up') ?></a>
 				</div>
 			</div>
 			<!-- Как это выглядит: скриншот, загрузка в фоне и ссылка, которая уже в буфере обмена -->
-			<div class="demo" aria-label="Как работает ShotHost">
+			<div class="demo" aria-label="<?= t('demo_label') ?>">
 				<div class="demo-bar" aria-hidden="true"><i></i><i></i><i></i><span class="mono">ShotHost</span></div>
 				<div class="demo-row">
 					<span class="demo-step mono">01</span>
 					<div class="demo-body">
-						<b>Скриншот сохранён</b>
+						<b><?= t('demo_saved') ?></b>
 						<span class="demo-file mono">SCR-20261011-jvpl.png</span>
 					</div>
 					<span class="demo-ok" aria-hidden="true">✓</span>
@@ -74,7 +81,7 @@ include __DIR__ . '/header.php';
 				<div class="demo-row">
 					<span class="demo-step mono">02</span>
 					<div class="demo-body">
-						<b>Ссылка в буфере обмена</b>
+						<b><?= t('demo_link') ?></b>
 						<span class="demo-link mono">yakus.ru/shothost/SCR-20261011-jvpl_2af3a7d3</span>
 					</div>
 					<span class="demo-ok" aria-hidden="true">✓</span>
@@ -82,7 +89,7 @@ include __DIR__ . '/header.php';
 				<div class="demo-row">
 					<span class="demo-step mono">03</span>
 					<div class="demo-body">
-						<b>Загрузка на ваш сервер</b>
+						<b><?= t('demo_upload') ?></b>
 						<span class="demo-progress" aria-hidden="true"><span></span></span>
 					</div>
 					<span class="demo-ok demo-ok-late" aria-hidden="true">✓</span>
@@ -93,42 +100,42 @@ include __DIR__ . '/header.php';
 
 	<section class="product" id="features">
 		<div class="wrap">
-			<h2 class="section-title">Возможности</h2>
+			<h2 class="section-title"><?= t('features') ?></h2>
 			<ul class="features features-grid">
-				<li><b>Мгновенная загрузка</b>Скриншот отправляется на сервер в тот же момент, когда файл записывается на диск.</li>
-				<li><b>Ссылка сразу</b>Готовая ссылка появляется в буфере обмена ещё до окончания копирования, ей можно делиться сразу.</li>
-				<li><b>Максимальная скорость</b>Прямая загрузка на ваш VPS без очередей и задержек публичных хостингов.</li>
-				<li><b>Ваш сервер</b>Изображения лежат на вашем собственном VPS под вашим полным контролем.</li>
-				<li><b>Приложение в строке меню</b>Нативное приложение для macOS: настройка в одном окне, проверка соединения, автозапуск при входе в систему.</li>
-				<li><b>Без рекламы</b>Никаких баннеров, всплывающих окон, водяных знаков и капч.</li>
-				<li><b>Вечное хранение</b>Файлы хранятся, пока вы сами их не удалите, ничего не пропадает автоматически.</li>
-				<li><b>Открытый код</b>Весь код на GitHub под лицензией MIT: сервер на PHP, приложение на Swift.</li>
+				<li><b><?= t('f1_title') ?></b><?= t('f1_text') ?></li>
+				<li><b><?= t('f2_title') ?></b><?= t('f2_text') ?></li>
+				<li><b><?= t('f3_title') ?></b><?= t('f3_text') ?></li>
+				<li><b><?= t('f4_title') ?></b><?= t('f4_text') ?></li>
+				<li><b><?= t('f5_title') ?></b><?= t('f5_text') ?></li>
+				<li><b><?= t('f6_title') ?></b><?= t('f6_text') ?></li>
+				<li><b><?= t('f7_title') ?></b><?= t('f7_text') ?></li>
+				<li><b><?= t('f8_title') ?></b><?= t('f8_text') ?></li>
 			</ul>
 		</div>
 	</section>
 
 	<section class="product" id="download">
 		<div class="wrap">
-			<h2 class="section-title">Скачать ShotHost</h2>
-			<p class="product-text">Ссылки ведут на последний выпуск в GitHub Releases: его собирает GitHub Actions при каждой новой версии.</p>
+			<h2 class="section-title"><?= t('download_title') ?></h2>
+			<p class="product-text"><?= t('download_text') ?></p>
 			<div class="downloads">
 				<a class="dl" href="https://github.com/igoryakus/shothost/releases/latest/download/ShotHost.dmg">
 					<span class="dl-os"><svg class="os-icon" aria-hidden="true"><use href="#i-apple"/></svg>macOS</span>
 					<span class="dl-file mono">ShotHost.dmg</span>
-					<span class="dl-note">Приложение для строки меню, macOS 13 и новее, Apple Silicon и Intel. Откройте образ и перетащите ShotHost в «Программы». Приложение подписано без сертификата Apple, поэтому при первом запуске откройте Системные настройки → Конфиденциальность и безопасность и нажмите «Всё равно открыть».</span>
-					<span class="btn btn-primary">Скачать</span>
+					<span class="dl-note"><?= t('dl_macos') ?></span>
+					<span class="btn btn-primary"><?= t('download') ?></span>
 				</a>
 				<a class="dl" href="https://github.com/igoryakus/shothost/releases/latest/download/shothost.ps1">
 					<span class="dl-os"><svg class="os-icon" aria-hidden="true"><use href="#i-windows"/></svg>Windows</span>
 					<span class="dl-file mono">shothost.ps1</span>
-					<span class="dl-note">Скрипт PowerShell для Windows 10 и 11. Настройки задаются в начале файла, автозапуск через папку «Автозагрузка», подробности в инструкции ниже.</span>
-					<span class="btn btn-primary">Скачать</span>
+					<span class="dl-note"><?= t('dl_windows') ?></span>
+					<span class="btn btn-primary"><?= t('download') ?></span>
 				</a>
 				<a class="dl" href="https://github.com/igoryakus/shothost">
-					<span class="dl-os"><svg class="os-icon" aria-hidden="true"><use href="#i-github"/></svg>Сервер</span>
+					<span class="dl-os"><svg class="os-icon" aria-hidden="true"><use href="#i-github"/></svg><?= t('dl_server') ?></span>
 					<span class="dl-file mono">igoryakus/shothost</span>
-					<span class="dl-note">Страница просмотра на PHP для вашего VPS, ставится через git clone. Там же исходники приложения и лицензия MIT.</span>
-					<span class="btn btn-ghost">Открыть на GitHub →</span>
+					<span class="dl-note"><?= t('dl_server_text') ?></span>
+					<span class="btn btn-ghost"><?= t('open_on_github') ?></span>
 				</a>
 			</div>
 		</div>
@@ -136,41 +143,41 @@ include __DIR__ . '/header.php';
 
 	<section class="product" id="setup">
 		<div class="wrap">
-			<h2 class="section-title">Инструкция по настройке</h2>
-			<p class="product-text">Свой сервер, SSH-ключ и клиент на компьютере. Семь шагов, и скриншоты летят на ваш VPS.</p>
+			<h2 class="section-title"><?= t('setup_title') ?></h2>
+			<p class="product-text"><?= t('setup_text') ?></p>
 			<ol class="steps">
 				<li class="step">
 					<span class="principle-num mono">01</span>
-					<h3 class="step-title">Подготовка VPS</h3>
-					<p>Вам понадобится собственный VPS. Убедитесь, что у вас есть SSH-доступ с правами root или sudo.</p>
+					<h3 class="step-title"><?= t('s1_title') ?></h3>
+					<p><?= t('s1_text') ?></p>
 				</li>
 				<li class="step">
 					<span class="principle-num mono">02</span>
-					<h3 class="step-title">Настройка SSH-доступа по ключу</h3>
-					<p>Для безопасной и автоматической выгрузки скриншотов необходим доступ по SSH-ключу.</p>
+					<h3 class="step-title"><?= t('s2_title') ?></h3>
+					<p><?= t('s2_text') ?></p>
 
-					<h4>Создание ключа:</h4>
+					<h4><?= t('s2_create') ?></h4>
 					<ul>
-						<li><strong>macOS / Linux:</strong> Откройте терминал и введите <code>ssh-keygen -t ed25519</code>. Нажимайте Enter до завершения.</li>
-						<li><strong>Windows:</strong> Откройте PowerShell или командную строку и также введите <code>ssh-keygen -t ed25519</code>.</li>
+						<li><strong>macOS / Linux:</strong> <?= t('s2_mac') ?></li>
+						<li><strong>Windows:</strong> <?= t('s2_win') ?></li>
 					</ul>
 
-					<h4>Установка ключа на сервер:</h4>
-					<p>Выполните команду на вашем компьютере (заменив user и ip):</p>
+					<h4><?= t('s2_install') ?></h4>
+					<p><?= t('s2_run') ?></p>
 					<pre><code>ssh-copy-id -i ~/.ssh/id_ed25519.pub user@your_server_ip</code></pre>
-					<p>Если <code>ssh-copy-id</code> не доступен, вручную скопируйте содержимое вашего <code>.pub</code> файла в файл <code>~/.ssh/authorized_keys</code> на сервере.</p>
+					<p><?= t('s2_manual') ?></p>
 				</li>
 				<li class="step">
 					<span class="principle-num mono">03</span>
-					<h3 class="step-title">Установка Nginx, PHP и Git</h3>
-					<p>Выполните команды на сервере:</p>
+					<h3 class="step-title"><?= t('s3_title') ?></h3>
+					<p><?= t('s3_text') ?></p>
 					<pre><code>sudo apt update
 sudo apt install nginx php-fpm git</code></pre>
 				</li>
 				<li class="step">
 					<span class="principle-num mono">04</span>
-					<h3 class="step-title">Клонирование проекта</h3>
-					<p>Перейдите в директорию веб-сервера и склонируйте проект:</p>
+					<h3 class="step-title"><?= t('s4_title') ?></h3>
+					<p><?= t('s4_text') ?></p>
 					<pre><code>cd /var/www/html
 sudo git clone https://github.com/igoryakus/shothost.git
 sudo chown -R www-data:www-data /var/www/html/shothost
@@ -178,36 +185,36 @@ sudo chmod -R 755 /var/www/html/shothost/files</code></pre>
 				</li>
 				<li class="step">
 					<span class="principle-num mono">05</span>
-					<h3 class="step-title">Настройка Nginx</h3>
-					<p>Отредактируйте конфигурацию сайта (обычно <code>/etc/nginx/sites-available/default</code>):</p>
+					<h3 class="step-title"><?= t('s5_title') ?></h3>
+					<p><?= t('s5_text') ?></p>
 					<pre><code>location /shothost/ {
     try_files $uri $uri/ /shothost/index.php?$args;
 
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock; # Проверьте вашу версию PHP
+        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock; <?= t('s5_comment') ?>
     }
 }</code></pre>
-					<p>После изменений перезапустите Nginx: <code>sudo systemctl restart nginx</code></p>
+					<p><?= t('s5_restart') ?></p>
 				</li>
 				<li class="step">
 					<span class="principle-num mono">06</span>
-					<h3 class="step-title">Настройка клиента (macOS)</h3>
-					<p>1. Скачайте <a href="#download" class="text-link">ShotHost для macOS</a> из блока «Скачать» выше. Можно собрать приложение и самостоятельно: <code>./macos-app/build-app.sh</code> (нужны Xcode Command Line Tools).</p>
-					<p>2. Откройте <code>ShotHost.dmg</code> и перетащите <code>ShotHost.app</code> в «Программы». Приложение подписано без сертификата Apple: если macOS не даст его запустить, откройте Системные настройки → Конфиденциальность и безопасность и нажмите «Всё равно открыть».</p>
-					<p>3. При первом запуске откроется окно настроек. Укажите папку со скриншотами, сервер, SSH-порт, пользователя, папку на сервере, SSH-ключ и адрес ShotHost, затем нажмите «Проверить соединение» и «Сохранить».</p>
-					<p>4. Чтобы приложение работало постоянно, включите в настройках «Запускать при входе в систему».</p>
+					<h3 class="step-title"><?= t('s6_title') ?></h3>
+					<p><?= t('s6_1') ?></p>
+					<p><?= t('s6_2') ?></p>
+					<p><?= t('s6_3') ?></p>
+					<p><?= t('s6_4') ?></p>
 				</li>
 				<li class="step">
 					<span class="principle-num mono">07</span>
-					<h3 class="step-title">Настройка клиента (Windows)</h3>
-					<p>1. Скачайте <a href="#download" class="text-link">скрипт для Windows</a> <code>shothost.ps1</code> из блока «Скачать» выше.</p>
-					<p>2. Откройте его в текстовом редакторе и настройте переменные в начале файла (пути к папкам, данные сервера).</p>
-					<p>3. Для запуска откройте PowerShell и выполните скрипт. Чтобы он работал в фоне, можно создать ярлык в папке «Автозагрузка» (<code>Win+R</code> → <code>shell:startup</code>) с командой:</p>
-					<pre><code>powershell.exe -WindowStyle Hidden -File "C:\путь\к\shothost.ps1"</code></pre>
-					<p><em>Примечание: Убедитесь, что у вас разрешен запуск скриптов. Проверить текущую политику можно командой:</em></p>
+					<h3 class="step-title"><?= t('s7_title') ?></h3>
+					<p><?= t('s7_1') ?></p>
+					<p><?= t('s7_2') ?></p>
+					<p><?= t('s7_3') ?></p>
+					<pre><code>powershell.exe -WindowStyle Hidden -File "<?= t('s7_path') ?>"</code></pre>
+					<p><em><?= t('s7_note') ?></em></p>
 					<pre><code>Get-ExecutionPolicy -List</code></pre>
-					<p><em>Если напротив <code>CurrentUser</code> или <code>LocalMachine</code> не указано <code>RemoteSigned</code> или <code>Unrestricted</code>, разрешите запуск:</em></p>
+					<p><em><?= t('s7_allow') ?></em></p>
 					<pre><code>Set-ExecutionPolicy RemoteSigned -Scope CurrentUser</code></pre>
 				</li>
 			</ol>
@@ -217,14 +224,14 @@ sudo chmod -R 755 /var/www/html/shothost/files</code></pre>
 <?php elseif ($file_exists): ?>
 	<!-- Картинка найдена: показываем её в Viewer.js -->
 	<div id="image-gallery">
-		<img id="screenshot" src="<?php echo htmlspecialchars($image_url); ?>" alt="Скриншот" style="display: none;">
+		<img id="screenshot" src="<?php echo htmlspecialchars($image_url); ?>" alt="<?= t('screenshot_alt') ?>" style="display: none;">
 	</div>
 <?php else: ?>
 	<!-- Файл еще не докачался: показываем лоадер -->
 	<div class="loader-container" id="waiting-loader" data-url="<?php echo htmlspecialchars($image_url); ?>">
 		<div class="spinner" aria-hidden="true"></div>
-		<h2>Файл ещё загружается…</h2>
-		<p>Страница обновится сама, как только скриншот появится на сервере.</p>
+		<h2><?= t('loading_title') ?></h2>
+		<p><?= t('loading_text') ?></p>
 	</div>
 <?php endif; ?>
 

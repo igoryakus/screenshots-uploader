@@ -1,8 +1,8 @@
 <?php if (empty($use_viewer)): ?>
 <footer class="footer">
 	<div class="wrap footer-inner">
-		<span>© <?php echo date('Y'); ?> ShotHost, открытый код под лицензией MIT</span>
-		<a class="mono" href="https://yakus.ru/">yakus.ru</a>
+		<span>© <?php echo date('Y'); ?> <?= t('footer') ?></span>
+		<a class="mono" href="<?= $site_url ?>">yakus.ru</a>
 	</div>
 </footer>
 <?php endif; ?>

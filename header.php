@@ -57,16 +57,22 @@
 
 <header class="topbar">
 	<div class="wrap topbar-inner">
-		<a class="brand" href="https://yakus.ru/">
+		<a class="brand" href="<?= $site_url ?>">
 			<svg class="brand-mark" aria-hidden="true"><use href="#i-yk"/></svg>
 			<span><span class="brand-pre">igor</span>yakus</span>
 		</a>
 		<nav class="nav">
-			<a href="/shothost/#features">Возможности</a>
-			<a href="/shothost/#download">Скачать</a>
-			<a href="/shothost/#setup">Инструкция</a>
+			<a href="<?= $home_url ?>#features"><?= t('nav_features') ?></a>
+			<a href="<?= $home_url ?>#download"><?= t('nav_download') ?></a>
+			<a href="<?= $home_url ?>#setup"><?= t('nav_setup') ?></a>
+			<?php if (empty($is_home)): ?>
+			<?php elseif ($lang === 'ru'): ?>
+				<a class="lang" href="/shothost/" hreflang="en" lang="en" title="English version">EN / <b>RU</b></a>
+			<?php else: ?>
+				<a class="lang" href="/shothost/ru/" hreflang="ru" lang="ru" title="Русская версия"><b>EN</b> / RU</a>
+			<?php endif; ?>
 			<?php if (!empty($download_url)): ?>
-				<a class="nav-cta" href="<?php echo htmlspecialchars($download_url); ?>" download>Скачать оригинал</a>
+				<a class="nav-cta" href="<?php echo htmlspecialchars($download_url); ?>" download><?= t('download_original') ?></a>
 			<?php else: ?>
 				<a class="nav-cta" href="https://github.com/igoryakus/shothost">GitHub</a>
 			<?php endif; ?>
