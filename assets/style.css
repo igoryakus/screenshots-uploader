@@ -811,7 +811,8 @@ a.dl:hover {
 	flex: none;
 	width: 26px;
 	height: 26px;
-	color: var(--text);
+	color: var(--g2);
+	filter: drop-shadow(0 0 8px color-mix(in srgb, var(--g2) 55%, transparent));
 }
 
 .dl-file {

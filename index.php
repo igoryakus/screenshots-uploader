@@ -125,7 +125,7 @@ include __DIR__ . '/header.php';
 					<span class="btn btn-primary">Скачать</span>
 				</a>
 				<a class="dl" href="https://github.com/igoryakus/shothost">
-					<span class="dl-os"><svg class="os-icon" aria-hidden="true"><use href="#i-server"/></svg>Сервер</span>
+					<span class="dl-os"><svg class="os-icon" aria-hidden="true"><use href="#i-github"/></svg>Сервер</span>
 					<span class="dl-file mono">igoryakus/shothost</span>
 					<span class="dl-note">Страница просмотра на PHP для вашего VPS, ставится через git clone. Там же исходники приложения и лицензия MIT.</span>
 					<span class="btn btn-ghost">Открыть на GitHub →</span>
