@@ -112,10 +112,10 @@ include __DIR__ . '/header.php';
 			<h2 class="section-title">Скачать ShotHost</h2>
 			<p class="product-text">Ссылки ведут на последний выпуск в GitHub Releases: его собирает GitHub Actions при каждой новой версии.</p>
 			<div class="downloads">
-				<a class="dl" href="https://github.com/igoryakus/shothost/releases/latest/download/ShotHost.zip">
+				<a class="dl" href="https://github.com/igoryakus/shothost/releases/latest/download/ShotHost.dmg">
 					<span class="dl-os"><svg class="os-icon" aria-hidden="true"><use href="#i-apple"/></svg>macOS</span>
-					<span class="dl-file mono">ShotHost.zip</span>
-					<span class="dl-note">Приложение для строки меню, macOS 13 и новее, Apple Silicon и Intel. Распакуйте и перенесите в «Программы». В первый раз откройте через правый клик → «Открыть»: приложение подписано без сертификата Apple.</span>
+					<span class="dl-file mono">ShotHost.dmg</span>
+					<span class="dl-note">Приложение для строки меню, macOS 13 и новее, Apple Silicon и Intel. Откройте образ и перетащите ShotHost в «Программы». Приложение подписано без сертификата Apple, поэтому при первом запуске откройте Системные настройки → Конфиденциальность и безопасность и нажмите «Всё равно открыть».</span>
 					<span class="btn btn-primary">Скачать</span>
 				</a>
 				<a class="dl" href="https://github.com/igoryakus/shothost/releases/latest/download/shothost.ps1">
@@ -194,7 +194,7 @@ sudo chmod -R 755 /var/www/html/shothost/files</code></pre>
 					<span class="principle-num mono">06</span>
 					<h3 class="step-title">Настройка клиента (macOS)</h3>
 					<p>1. Скачайте <a href="#download" class="text-link">ShotHost для macOS</a> из блока «Скачать» выше. Можно собрать приложение и самостоятельно: <code>./macos-app/build-app.sh</code> (нужны Xcode Command Line Tools).</p>
-					<p>2. Распакуйте архив и перенесите <code>ShotHost.app</code> в «Программы». В первый раз откройте его через правый клик → «Открыть»: приложение подписано без сертификата Apple.</p>
+					<p>2. Откройте <code>ShotHost.dmg</code> и перетащите <code>ShotHost.app</code> в «Программы». Приложение подписано без сертификата Apple: если macOS не даст его запустить, откройте Системные настройки → Конфиденциальность и безопасность и нажмите «Всё равно открыть».</p>
 					<p>3. При первом запуске откроется окно настроек. Укажите папку со скриншотами, сервер, SSH-порт, пользователя, папку на сервере, SSH-ключ и адрес ShotHost, затем нажмите «Проверить соединение» и «Сохранить».</p>
 					<p>4. Чтобы приложение работало постоянно, включите в настройках «Запускать при входе в систему».</p>
 				</li>
