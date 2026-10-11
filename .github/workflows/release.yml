@@ -1,0 +1,33 @@
+# Выпуск версии: при пуше тега vX.Y.Z собирает ShotHost.app и выкладывает его в GitHub Releases вместе со скриптом для Windows.
+# Ссылки на сайте ведут на releases/latest/download/..., поэтому всегда отдают последнюю версию.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Tests
+        working-directory: macos-app
+        run: swift test
+
+      - name: Build ShotHost.app
+        working-directory: macos-app
+        run: ./build-app.sh
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ShotHost ${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            macos-app/build/ShotHost.zip
+            bash-client/shothost.ps1

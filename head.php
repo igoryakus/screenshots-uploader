@@ -16,6 +16,6 @@
 	<!-- Стили плагина Viewer.js -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.min.css">
 	<?php endif; ?>
-	<link rel="stylesheet" href="/shothost/assets/style.css?v=3">
+	<link rel="stylesheet" href="/shothost/assets/style.css?v=4">
 </head>
 <body class="<?php echo htmlspecialchars($body_class ?? ''); ?>">
