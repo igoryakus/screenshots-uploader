@@ -10,6 +10,9 @@ struct RecentUpload: Codable, Identifiable, Equatable {
 
 @MainActor
 final class AppState: ObservableObject {
+    /// Для AppDelegate, которому SwiftUI не передаёт состояние приложения.
+    static private(set) weak var shared: AppState?
+
     @Published private(set) var config: Config
     @Published var isPaused: Bool {
         didSet {
@@ -26,6 +29,7 @@ final class AppState: ObservableObject {
 
     init() {
         config = Config.load()
+        defer { AppState.shared = self }
         isPaused = UserDefaults.standard.bool(forKey: "isPaused")
         if let data = UserDefaults.standard.data(forKey: "recent"),
            let saved = try? JSONDecoder().decode([RecentUpload].self, from: data) {
