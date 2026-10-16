@@ -180,8 +180,8 @@ sudo apt install nginx php-fpm git</code></pre>
 					<p><?= t('s4_text') ?></p>
 					<pre><code>cd /var/www/html
 sudo git clone https://github.com/igoryakus/shothost.git
-sudo chown -R www-data:www-data /var/www/html/shothost
-sudo chmod -R 755 /var/www/html/shothost/files</code></pre>
+sudo chown -R $USER:www-data /var/www/html/shothost
+sudo chmod 2775 /var/www/html/shothost/files</code></pre>
 				</li>
 				<li class="step">
 					<span class="principle-num mono">05</span>
@@ -203,6 +203,9 @@ sudo chmod -R 755 /var/www/html/shothost/files</code></pre>
 					<p><?= t('s6_1') ?></p>
 					<p><?= t('s6_2') ?></p>
 					<p><?= t('s6_3') ?></p>
+					<?= t('s6_fields') ?>
+					<p><?= t('s6_check') ?></p>
+					<p><?= t('s6_menubar') ?></p>
 					<p><?= t('s6_4') ?></p>
 				</li>
 				<li class="step">
